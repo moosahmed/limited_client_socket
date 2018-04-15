@@ -1,23 +1,21 @@
 package com.newrelic.codingchallenge;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Client {
     //    private static final Logger LOG = LoggerFactory.getLogger(EchoClient.class);
 
     private Socket clientSocket;
     private PrintWriter out;
-    private BufferedReader in;
 
     public void startConnection(String ip, int port) {
         try {
             clientSocket = new Socket(ip, port);
             out = new PrintWriter(clientSocket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         } catch (IOException e) {
 //            LOG.debug("Error when initializing connection", e);
             System.out.println("Error when initializing connection");
@@ -25,25 +23,27 @@ public class Client {
 
     }
 
-    public String sendMessage(String msg) {
-        try {
-            out.println(msg);
-            return in.readLine();
-        } catch (Exception e) {
-            return null;
+    public void sendNumbers() {
+        Random random = new Random();
+        for (int i = 0; i < random.nextInt(100); i++) {
+            int num = ThreadLocalRandom.current().nextInt(1000000000);
+            String formatted = String.format("%08d", num);
+            System.out.println("sending: " + formatted);
+            out.println(formatted);
         }
+    }
+
+    public void terminate() {
+        out.println("terminate");
     }
 
     public void stopConnection() {
         try {
-            in.close();
             out.close();
             clientSocket.close();
         } catch (IOException e) {
 //            LOG.debug("error when closing", e);
             System.out.println("Error when closing");
         }
-
     }
-
 }

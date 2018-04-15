@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
+import java.util.regex.Pattern;
 
 public class FiveClientServer {
     private ServerSocket serverSocket;
@@ -37,6 +38,7 @@ public class FiveClientServer {
         private Socket clientSocket;
         private PrintWriter out;
         private BufferedReader in;
+        private Pattern nineDigit = Pattern.compile("\\d{9}");
 
         // Constructs a handler thread; stores away a socket
         public FiveClientHandler(Socket socket) {
@@ -46,20 +48,20 @@ public class FiveClientServer {
         @Override
         public void run() {
             try {
-                out = new PrintWriter(clientSocket.getOutputStream(), true);
+                out = new PrintWriter("./out/numbers.log"); // find out convention for where to put outputs
+                // this has to be writable by all clients without refreshing untill a restart of application. try w/ resources
                 in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 String inputLine;
-                // this will read your numbers and terminate your client not your app. this should happen if the 9 digits does not qualify
-                //
+                // this will read your numbers and terminate your client not your app.
                 while (true) {
                     inputLine = in.readLine();
-                    if (inputLine == null || inputLine.equals(".")) {
-                        out.println("bye");
+                    if (inputLine == null || !(nineDigit.matcher(inputLine).matches())) {
                         break;
                     }
+                    // TODO: What Happens if client doesn't close connection?
                     // do things to the input here. you are probably not going to need an out since you have a one way
                     // communication
-                    out.println(inputLine);
+                    out.write(inputLine + System.lineSeparator());
                 }
             } catch (IOException e) {
                 e.printStackTrace();

@@ -17,79 +17,44 @@ public class FiveSocketTest {
     public void givenClient1_whenServerResponds_thenCorrect() {
         Client client = new Client();
         client.startConnection("127.0.0.1", PORT);
-        String msg1 = client.sendMessage("hello");
-        String msg2 = client.sendMessage("world");
-//        String terminate = client.sendMessage(".");
-
-        assertEquals(msg1, "hello");
-        assertEquals(msg2, "world");
-//        try {
-//            Thread.sleep(10000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        String terminate = client.sendMessage(".");
-//        assertEquals(terminate, "bye");
-//        client.stopConnection();
+        client.sendNumbers();
+        client.stopConnection();
     }
 
     @Test
     public void givenClient2_whenServerResponds_thenCorrect() {
         Client client = new Client();
         client.startConnection("127.0.0.1", PORT);
-        String msg1 = client.sendMessage("hello");
-        String msg2 = client.sendMessage("world");
-//        String terminate = client.sendMessage(".");
-        assertEquals(msg1, "hello");
-        assertEquals(msg2, "world");
-//        assertEquals(terminate, "bye");
-//        client.stopConnection();
+        client.sendNumbers();
+        client.stopConnection();
     }
 
     @Test
     public void givenClient3_whenServerResponds_thenCorrect() {
         Client client = new Client();
         client.startConnection("127.0.0.1", PORT);
-        String msg1 = client.sendMessage("hello");
-        String msg2 = client.sendMessage("world");
-//        String terminate = client.sendMessage(".");
-        assertEquals(msg1, "hello");
-        assertEquals(msg2, "world");
-//        assertEquals(terminate, "bye");
-//        client.stopConnection();
+        client.sendNumbers();
+        client.stopConnection();
     }
 
     @Test
     public void givenClient4_whenServerResponds_thenCorrect() {
         Client client = new Client();
         client.startConnection("127.0.0.1", PORT);
-        String msg1 = client.sendMessage("hello");
-        String msg2 = client.sendMessage("world");
-//        String terminate = client.sendMessage(".");
-        assertEquals(msg1, "hello");
-        assertEquals(msg2, "world");
-//        assertEquals(terminate, "bye");
-//        client.stopConnection();
+        client.sendNumbers();
+        client.stopConnection();
     }
 
     @Test
     public void givenClient5_whenServerResponds_thenCorrect() {
         Client client = new Client();
         client.startConnection("127.0.0.1", PORT);
-        String msg1 = client.sendMessage("hello");
-        String msg2 = client.sendMessage("world");
-//        String terminate = client.sendMessage(".");
-        assertEquals(msg1, "hello");
-        assertEquals(msg2, "world");
-//        assertEquals(terminate, "bye");
-//        client.stopConnection();
+        client.sendNumbers();
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        String terminate = client.sendMessage(".");
-//        assertEquals(terminate, "bye");
         client.stopConnection();
     }
 
@@ -97,12 +62,7 @@ public class FiveSocketTest {
     public void givenClient6_whenServerResponds_thenCorrect() {
         Client client = new Client();
         client.startConnection("127.0.0.1", PORT);
-        String msg1 = client.sendMessage("hello");
-        String msg2 = client.sendMessage("world");
-        String terminate = client.sendMessage(".");
-        assertEquals(msg1, "hello");
-        assertEquals(msg2, "world");
-        assertEquals(terminate, "bye");
+        client.sendNumbers();
         client.stopConnection();
     }
 
