@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 public class FiveClientServer {
     private ServerSocket serverSocket;
     private ExecutorService executorService = Executors.newFixedThreadPool(5);
-    protected BlockingQueue<String> queue;
+    private BlockingQueue<String> queue;
     private WriterThread writer;
 
     // blockingQueue used to keep process thread safe.
@@ -77,7 +77,7 @@ public class FiveClientServer {
 
     public static void main(String[] args) {
         System.out.println("Starting up server ....");
-        BlockingQueue<String> queue = new ArrayBlockingQueue<>(1024);
+        BlockingQueue<String> queue = new ArrayBlockingQueue<>(2000000);
         FiveClientServer server = new FiveClientServer(queue);
         server.start(4000);
     }

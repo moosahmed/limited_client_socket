@@ -2,10 +2,18 @@ package com.newrelic.codingchallenge;
 
 import java.io.*;
 
+/**
+ * Building a Binary Search Tree, to significantly decrease time required to identify duplicates
+ */
 public class BST<Key extends Comparable<Key>> {
     private Node root;             // root of BST
     private int duplicates = 0;
-    private File file = new File("numbers.log");
+    private File file;
+
+    public BST() {
+        file = new File("./out/numbers.log");
+        if (file.exists()) file.delete();
+    }
 
     private class Node {
         private Key key;           // sorted by key
@@ -18,19 +26,10 @@ public class BST<Key extends Comparable<Key>> {
         }
     }
 
-    public void clear(File f){
-        if(f.exists()){
-            f.delete();
-        }
-    }
-
     public int getDuplicates() {
         return duplicates;
     }
 
-    /**
-     * Adds a string per line to the log file defined above
-     */
     public void addToLog(String txt){
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
             bw.write(txt + System.lineSeparator());
