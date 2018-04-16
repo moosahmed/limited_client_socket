@@ -26,8 +26,8 @@ public class Client {
     public void sendNumbers() {
         Random random = new Random();
         for (int i = 0; i < random.nextInt(100); i++) {
-            int num = ThreadLocalRandom.current().nextInt(1000000000);
-            String formatted = String.format("%08d", num);
+            int num = ThreadLocalRandom.current().nextInt(1000000000); // check ints instead of strings, is leading 0 ints even possible
+            String formatted = String.format("%08d", num); //TODO: %09
             System.out.println("sending: " + formatted);
             out.println(formatted);
         }
