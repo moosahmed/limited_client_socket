@@ -4,12 +4,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
 
-public class WriterThread implements Runnable{
+public class Queuer implements Runnable{
     private BST<String> stringBST = new BST<>();
     private BlockingQueue<String> blockingQueue;
     private Timer timer;
 
-    public WriterThread(BlockingQueue<String> blockingQueue) {
+    public Queuer(BlockingQueue<String> blockingQueue) {
         this.blockingQueue = blockingQueue;
         timer = new Timer();
         timer.schedule(new Summary(stringBST), 0, 10000);

@@ -1,72 +1,111 @@
-# coding-challenge
+# Table of Contents
+1. [Solution Approach](README.md#solution-approach)
+2. [Tests](README.md#tests)
+3. [Repo directory structure](README.md#repo-directory-structure)
+4. [Challenge Description](README.md#challenge-description)
 
-Coding Challenge Build Framework
+# Solution Approach
+Java 1.8 solution to the Data Service Coding Challenge described below.
 
-## Starter build framework for the coding challenge
+The Main script is contained in `./src/main/java/com/newrelic/codingchallenge/FiveClientServer.java`.
+The entire solution uses `java.io.*` `java.net.*` `java.util.*` No Dependencies. `build.gradle` is also available.
 
-First, you do not need to use this starter framework for your project.
-If you would rather use a different build system (maven, javac, ...)
-you are free to so long as you provide clear commands to build your
-project and start your server.  Failure to do so will invalidate your
-submission.
+The Server was limited to a Fixed Thread pool, by using the Executors package. The Server does not allow any more than 5
+clients to connect at a time.
+The Server has a Client Handler class that handles and reads the input streams for each of the clients. responding to
+inputs dynamically as they come in.
 
+A Binary Search Tree `BST.java` is implemented to identify duplicates at higher throughput. The Tree organizes the
+inputs and also keeps tabs on the size of the Tree and the number of duplicates.
 
-## Install Java
+Initially, the Client input streams were directly fed into the Tree. However the process was quite slow. After which,
+a blocking queue was implemented, inorder to be more thread safe, and to avoid interleaving of threads. The blocking
+queue's capacity is set to 2M, however it is adjustable under `main`. THe blocking que is fed in by WriterThread.java
 
-This coding challenge is in Java so it is recommended you install Java
-1.8 from Oracle.
+Unfortunately processing speed wasn't much approved with this method. Test results below. The numbers.log file is saved
+in the `out` folder
 
+## Future Directions
+Maybe having a concurrent and parallel structure having multiple inner threads that simultaneously feeds into the data
+structure, would work much better.
 
-## Gradle
+# Tests
+A "dummy" client is provided in the test folder. Along with some tests (no assertions).
 
-The build framework provided here uses gradle to build your project
-and manage your dependencies.  The `gradlew` command used here will
-automatically download gradle for you so you shouldn't need to install
-anything other than java.
+    Max 5 Clients                           : Successful
+    Handling leading zeros                  : Successful
+    numbers.log created anew                : Successful
+    No duplicates in log file               : Successful
+    Non-conforming Data/Client disconnect   : Successful
+    Summary standard output                 : Successful
+    terminate / system shutdown             : Successful
 
+2M numbers across 5 clients test, Specs:
+* 14 seconds for 2M numbers to get in que.
+* Unfortunately only ~250 numbers/second get written to numbers.log
 
-### Project Layout
+## Repo directory structure
 
-All source code should be located in the `src/main/java` folder.
-If you wish to write any tests (not a requirement) they should be
-located in the `src/test/java` folder.
+    .
+    ├── README.md
+    ├── build.gradle
+    ├── gradlew
+    ├── src
+    │   └── main/java/com/newrelic/codingchallenge
+    │       └── BST.java
+    │       └── FiveClientServer.java
+    │       └── Queuer.java
+    │   └── test/java/com/newrelic/codingchallenge
+    │       └── FiveSocketTest.java
+    │       └── Client.java
+    ├── gradle/wrapper
+    │   └── ...
 
-A starter `Main.java` file has been provided in the `com/newrelic/codingchallenge` package under `src/main/java`.
+# References
+1. http://www.baeldung.com/a-guide-to-java-sockets
+2. https://algs4.cs.princeton.edu/32bst/BST.java.html
 
+# Challenge Description
+Write a server (“Application”) in Java that opens a socket and restricts input to at most 5 concurrent clients. Clients
+will connect to the Application and write any number of 9 digit numbers, and then close the connection. The Application
+must write a de-duplicated list of these numbers to a log file in no particular order.
 
-### Dependencies
+### Primary Considerations
+The Application should work correctly as defined below in Requirements.
+The overall structure of the Application should be simple.
+The code of the Application should be descriptive and easy to read, and the build method and runtime parameters must be
+well-described and work.
+The design should be resilient with regard to data loss.
+The Application should be optimized for maximum throughput, weighed along with the other Primary Considerations and the
+Requirements below.
 
-If your project has any dependencies you can list them in the
-`build.gradle` file in the `dependencies` section.
+### Requirements
+The Application must accept input from at most 5 concurrent clients on TCP/IP port 4000.
+Input lines presented to the Application via its socket must either be composed of exactly nine decimal digits
+(e.g.: 314159265 or 007007009) immediately followed by a server-native newline sequence; or a termination sequence as
+detailed in #9, below.
+Numbers presented to the Application must include leading zeros as necessary to ensure they are each 9 decimal digits.
+The log file, to be named "numbers.log”, must be created anew and/or cleared when the Application starts.
+Only numbers may be written to the log file. Each number must be followed by a server-native newline sequence.
+No duplicate numbers may be written to the log file.
+Any data that does not conform to a valid line of input should be discarded and the client connection terminated
+immediately and without comment.
+Every 10 seconds, the Application must print a report to standard output:
+The difference since the last report of the count of new unique numbers that have been received.
+The difference since the last report of the count of new duplicate numbers that have been received.
+The total number of unique numbers received for this run of the Application.
+Example text for #8: Received 50 unique numbers, 2 duplicates. Unique total: 567231
+If any connected client writes a single line with only the word "terminate" followed by a server-native newline sequence
+, the Application must disconnect all clients and perform a clean shutdown as quickly as possible.
+Clearly state all of the assumptions you made in completing the Application.
 
-
-### Building your project from the command line
-
-To build the project on Linux or MacOS run the command `./gradlew build` in a shell terminal.  This will build the source code in
-`src/main/java`, run any tests in `src/test/java` and create an output
-jar file in the `build/libs` folder.
-
-To clean out any intermediate files run `./gradlew clean`.  This will
-remove all files in the `build` folder.
-
-
-### Running your application from the command line
-
-You first must create a shadow jar file.  This is a file which contains your project code and all dependencies in a single jar file.  To build a shadow jar from your project run `./gradlew shadowJar`.  This will create a `codeing-challenge-shadow.jar` file in the `build/libs` directory.
-
-You can then start your application by running the command
-`java -jar ./build/lib/coding-challenge-shadow.jar`
-
-## IDEA
-
-You are free to use whichever editor or IDE you want providing your
-projects build does not depend on that IDE.  Most of the Java
-developers at New Relic use IDEA from
-[JetBrains](https://www.jetbrains.com/).  JetBrains provides
-a community edition of IDEA which you can download and use without
-charge.
-
-If you are planning to use IDEA you can generate the IDEA project files
-by running `./gradlew idea` and directly opening the project folder
-as a project in idea.
-
+### Notes
+You may write tests at your own discretion. Tests are useful to ensure your Application passes Primary Consideration A.
+You may use common libraries in your project such as Apache Commons and Google Guava, particularly if their use helps
+improve Application simplicity and readability. However the use of large frameworks, such as Akka, is prohibited.
+Your Application may not for any part of its operation use or require the use of external systems, for example Apache
+Kafka or Redis.
+At your discretion, leading zeroes present in the input may be stripped—or not used—when writing output to the log or
+console.
+Robust implementations of the Application typically handle more than 2M numbers per 10-second reporting period on a
+modern MacBook Pro laptop (e.g.: 16 GiB of RAM and a 2.5 GHz Intel i7 processor).

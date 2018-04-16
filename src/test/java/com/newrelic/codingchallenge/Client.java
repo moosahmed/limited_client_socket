@@ -21,9 +21,9 @@ public class Client {
 
     public void sendNumbers() {
         Random random = new Random();
-        for (int i = 0; i < 400000; i++) {
+        for (int i = 0; i < random.nextInt(400000); i++) {
             int num = ThreadLocalRandom.current().nextInt(1000000000);
-            String formatted = String.format("%09d", num); //TODO: %09
+            String formatted = String.format("%09d", num);
             out.println(formatted);
         }
     }

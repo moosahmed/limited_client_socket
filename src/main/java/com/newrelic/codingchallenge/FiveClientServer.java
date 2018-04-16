@@ -9,7 +9,7 @@ public class FiveClientServer {
     private ServerSocket serverSocket;
     private ExecutorService executorService = Executors.newFixedThreadPool(5);
     private BlockingQueue<String> queue;
-    private WriterThread writer;
+    private Queuer queuer;
 
     // blockingQueue used to keep process thread safe.
     public FiveClientServer(BlockingQueue<String> blockingQueue) {
@@ -19,8 +19,8 @@ public class FiveClientServer {
     public void start(int port) {
         try {
             serverSocket = new ServerSocket(port);
-            writer = new WriterThread(queue);
-            new Thread(writer).start();
+            queuer = new Queuer(queue);
+            new Thread(queuer).start();
             while (true) executorService.submit(new FiveClientHandler(serverSocket.accept(), queue));
         } catch (IOException e) {
             e.printStackTrace();
