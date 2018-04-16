@@ -6,7 +6,7 @@ public class BST<Key extends Comparable<Key>> {
     private Node root;             // root of BST
     private int duplicates = 0;
     private File file = new File("numbers.log");
-    private boolean Clear = file.delete(); // There needs to be a better way
+//    private boolean Clear = file.delete(); // There needs to be a better way
 
     private class Node {
         private Key key;           // sorted by key
@@ -19,21 +19,26 @@ public class BST<Key extends Comparable<Key>> {
         }
     }
 
+//    public void clear(){
+//        if(file.exists()){
+//            this.file.delete();
+//        }
+//    }
+
     public int getDuplicates() {
         return duplicates;
-    }
-
-    public int getSize() {
-        return this.size();
     }
 
     /**
      * Adds a string per line to the log file defined above
      */
     public void addToLog(String txt){
+//        try (BufferedOutputStream bw = new BufferedOutputStream(new FileOutputStream(file, true))) {
+//            bw.write((txt + System.lineSeparator()).getBytes("UTF-8"));
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
             bw.write(txt + System.lineSeparator());
         } catch (IOException e) {
+            System.out.println("this text is tripping " + txt );
             System.out.println("Unable to read file " + file.toString());
         }
     }
@@ -43,7 +48,6 @@ public class BST<Key extends Comparable<Key>> {
      */
     public BST() {
     }
-
 
     /**
      * Returns the number of keys in this Tree at root or Node.
