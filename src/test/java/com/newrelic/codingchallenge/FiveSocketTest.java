@@ -28,41 +28,41 @@ public class FiveSocketTest {
         client.sendNumbers();
         client.stopConnection();
     }
-//
-//    @Test
-//    public void givenClient3_whenServerResponds_thenCorrect() {
-//        Client client = new Client();
-//        client.startConnection("127.0.0.1", PORT);
-//        client.sendNumbers();
-//        client.stopConnection();
-//    }
-//
-//    @Test
-//    public void givenClient4_whenServerResponds_thenCorrect() {
-//        Client client = new Client();
-//        client.startConnection("127.0.0.1", PORT);
-//        client.sendNumbers();
-//        client.stopConnection();
-//    }
-//
-////    @Test
-////    public void givenClient5_whenServerResponds_thenCorrect() {
-////        Client client = new Client();
-////        client.startConnection("127.0.0.1", PORT);
-////        client.sendNumbers();
-////        try {
-////            Thread.sleep(3000);
-////        } catch (InterruptedException e) {
-////            e.printStackTrace();
-////        }
-////        client.stopConnection();
-////    }
-//
-//    @Test
-//    public void givenClient6_whenServerResponds_thenCorrect() {
-//        Client client = new Client();
-//        client.startConnection("127.0.0.1", PORT);
-//        client.sendNumbers();
-//        client.stopConnection();
-//    }
+
+    @Test
+    public void givenClient3_whenServerResponds_thenCorrect() {
+        Client client = new Client();
+        client.startConnection("127.0.0.1", PORT);
+        client.sendNumbers();
+        client.stopConnection();
+    }
+
+    @Test
+    public void givenClient4_whenServerResponds_thenCorrect() {
+        Client client = new Client();
+        client.startConnection("127.0.0.1", PORT);
+        client.sendNumbers();
+        client.stopConnection();
+    }
+
+    @Test
+    public void givenClient5_whenServerResponds_thenCorrect() {
+        Client client = new Client();
+        client.startConnection("127.0.0.1", PORT);
+        client.sendNumbers();
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        client.stopConnection();
+    }
+
+    @Test
+    public void givenClient6_whenServerResponds_thenCorrect() {
+        Client client = new Client();
+        client.startConnection("127.0.0.1", PORT);
+        client.sendNumbers();
+        client.stopConnection();
+    }
 }

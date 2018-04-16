@@ -7,8 +7,6 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Client {
-    //    private static final Logger LOG = LoggerFactory.getLogger(EchoClient.class);
-
     private Socket clientSocket;
     private PrintWriter out;
 
@@ -17,7 +15,6 @@ public class Client {
             clientSocket = new Socket(ip, port);
             out = new PrintWriter(clientSocket.getOutputStream(), true);
         } catch (IOException e) {
-//            LOG.debug("Error when initializing connection", e);
             System.out.println("Error when initializing connection");
         }
 
@@ -25,8 +22,8 @@ public class Client {
 
     public void sendNumbers() {
         Random random = new Random();
-        for (int i = 0; i < random.nextInt(100); i++) {
-            int num = ThreadLocalRandom.current().nextInt(1000000000); // check ints instead of strings, is leading 0 ints even possible
+        for (int i = 0; i < random.nextInt(200000); i++) {
+            int num = ThreadLocalRandom.current().nextInt(1000000000);
             String formatted = String.format("%09d", num); //TODO: %09
             System.out.println("sending" + (i+1) + ": " + formatted);
             out.println(formatted);
@@ -42,7 +39,6 @@ public class Client {
             out.close();
             clientSocket.close();
         } catch (IOException e) {
-//            LOG.debug("error when closing", e);
             System.out.println("Error when closing");
         }
     }
