@@ -30,7 +30,7 @@ public class BST<Key extends Comparable<Key>> {
         return duplicates;
     }
 
-    public void addToLog(String txt){
+    public void addToLog(int txt){
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
             bw.write(txt + System.lineSeparator());
         } catch (IOException e) {
@@ -62,7 +62,7 @@ public class BST<Key extends Comparable<Key>> {
 
     private Node put(Node x, Key key) {
         if (x == null) {
-            addToLog((String) key);
+            addToLog((Integer) key);
             return new Node(key, 1);
         }
         int cmp = key.compareTo(x.key);

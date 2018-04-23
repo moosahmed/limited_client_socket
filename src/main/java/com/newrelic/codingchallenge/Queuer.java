@@ -5,22 +5,22 @@ import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
 
 public class Queuer implements Runnable{
-    private BST<String> stringBST = new BST<>();
-    private BlockingQueue<String> blockingQueue;
+    private BST<Integer> intBST = new BST<>();
+    private BlockingQueue<Integer> blockingQueue;
     private Timer timer;
 
-    public Queuer(BlockingQueue<String> blockingQueue) {
+    public Queuer(BlockingQueue<Integer> blockingQueue) {
         this.blockingQueue = blockingQueue;
         timer = new Timer();
-        timer.schedule(new Summary(stringBST), 0, 10000);
+        timer.schedule(new Summary(intBST), 0, 10000);
     }
 
     @Override
     public void run() {
         while(true){
             try {
-                String buffer = blockingQueue.take();
-                stringBST.put(buffer);
+                int buffer = blockingQueue.take();
+                intBST.put(buffer);
             } catch (InterruptedException e) {
                 System.out.println("The connection was interrupted");
             }
@@ -28,12 +28,12 @@ public class Queuer implements Runnable{
     }
 
     class Summary extends TimerTask {
-        private BST<String> BST;
+        private BST<Integer> BST;
         private int pre_uniq = 0;
         private int pre_duplicate = 0;
         private int uniq_diff;
         private int dup_diff;
-        public Summary(BST<String> BST) {
+        public Summary(BST<Integer> BST) {
             this.BST = BST;
         }
 
